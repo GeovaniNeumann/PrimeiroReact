@@ -1,0 +1,150 @@
+.header {
+  background: white;
+  height: 80px;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+}
+
+.gerente-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.gerente-info h1 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1e3c72;
+  margin: 0;
+}
+
+.gerente-nome {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #95a5a6;
+}
+
+.gerente-nome i {
+  color: #2ecc71;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.notificacoes {
+  position: relative;
+  cursor: pointer;
+}
+
+.notificacoes i {
+  font-size: 1.5rem;
+  color: #95a5a6;
+  transition: all 0.3s ease;
+}
+
+.notificacoes:hover i {
+  color: #1e3c72;
+  transform: scale(1.1);
+}
+
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #e74c3c;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 20px;
+  min-width: 20px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
+}
+
+.btn-logout {
+  background: none;
+  border: 2px solid #e74c3c;
+  color: #e74c3c;
+  padding: 0.5rem 1.5rem;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  width: auto;
+  margin: 0;
+}
+
+.btn-logout:hover {
+  background: #e74c3c;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: auto;
+    padding: 0.5rem 1rem;
+  }
+  
+  .header-brand {
+    gap: 0.5rem;
+  }
+  
+  .logo {
+    height: 35px;
+  }
+  
+  .gerente-info h1 {
+    font-size: 0.9rem;
+  }
+  
+  .gerente-nome {
+    font-size: 0.8rem;
+  }
+  
+  .header-actions {
+    gap: 0.75rem;
+  }
+  
+  .notificacoes i {
+    font-size: 1.2rem;
+  }
+  
+  .btn-logout {
+    padding: 0.3rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .btn-logout span {
+    display: none;
+  }
+}
