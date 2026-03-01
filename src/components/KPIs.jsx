@@ -1,25 +1,27 @@
-import React from 'react'
-import { FaUsers, FaUserCheck, FaChartLine, FaCalendarCheck } from 'react-icons/fa'
-import './KPIs.css'
+import React from 'react';
+import { FaUsers, FaUserCheck, FaChartLine, FaCalendarCheck } from 'react-icons/fa';
+import './KPIs.css';
 
 const KPIs = ({ clients = [] }) => {
-  const total = clients.length
-  const ativos = clients.filter(c => c.status === 'Ativo').length
-  const faturamento = clients.reduce((sum, c) => sum + (c.revenue_ytd || 0), 0)
+  const total = clients.length;
+  const ativos = clients.filter(c => c.status === 'Ativo').length;
+  const faturamento = clients.reduce((sum, c) => sum + (c.revenue_ytd || 0), 0);
   
-  const hoje = new Date()
+  const hoje = new Date();
   const visitasMes = clients.filter(c => {
-    if (!c.next_contact) return false
-    const data = new Date(c.next_contact)
-    return data.getMonth() === hoje.getMonth() && data.getFullYear() === hoje.getFullYear()
-  }).length
+    if (!c.next_contact) return false;
+    const data = new Date(c.next_contact);
+    return data.getMonth() === hoje.getMonth() && data.getFullYear() === hoje.getFullYear();
+  }).length;
 
   const formatCurrency = (value) => {
     return value.toLocaleString('pt-BR', {
       style: 'currency',
-      currency: 'BRL'
-    })
-  }
+      currency: 'BRL',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    });
+  };
 
   const kpiData = [
     {
@@ -28,7 +30,6 @@ const KPIs = ({ clients = [] }) => {
       value: total,
       icon: <FaUsers />,
       color: 'primary',
-      suffix: ''
     },
     {
       id: 2,
@@ -36,7 +37,6 @@ const KPIs = ({ clients = [] }) => {
       value: ativos,
       icon: <FaUserCheck />,
       color: 'success',
-      suffix: ''
     },
     {
       id: 3,
@@ -44,17 +44,15 @@ const KPIs = ({ clients = [] }) => {
       value: formatCurrency(faturamento),
       icon: <FaChartLine />,
       color: 'warning',
-      suffix: ''
     },
     {
       id: 4,
-      title: 'Visitas/Mês',
+      title: 'Visitas este Mês',
       value: visitasMes,
       icon: <FaCalendarCheck />,
       color: 'info',
-      suffix: ''
     }
-  ]
+  ];
 
   return (
     <div className="kpi-grid">
@@ -65,12 +63,12 @@ const KPIs = ({ clients = [] }) => {
           </div>
           <div className="kpi-info">
             <h3>{kpi.title}</h3>
-            <p className="kpi-value">{kpi.value}{kpi.suffix}</p>
+            <p className="kpi-value">{kpi.value}</p>
           </div>
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default KPIs
+export default KPIs;

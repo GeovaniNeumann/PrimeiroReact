@@ -1,10 +1,19 @@
-import React from 'react'
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import { getColorByPorte } from '../utils'
-import './CalendarView.css'
+import React from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import ptBrLocale from '@fullcalendar/core/locales/pt-br';
+import './CalendarView.css';
+
+const getColorByPorte = (porte) => {
+  switch(porte) {
+    case 'Grande': return '#dc3545';
+    case 'Médio': return '#ffc107';
+    case 'Pequeno': return '#17a2b8';
+    default: return '#1e3c72';
+  }
+};
 
 const CalendarView = ({ clients = [], onEventClick }) => {
   const events = clients
@@ -22,24 +31,24 @@ const CalendarView = ({ clients = [], onEventClick }) => {
         porte: c.porte,
         status: c.status
       }
-    }))
+    }));
 
   const handleEventClick = (info) => {
     if (onEventClick) {
-      onEventClick(info.event.extendedProps.clientId)
+      onEventClick(info.event.extendedProps.clientId);
     }
-  }
+  };
 
   return (
     <div className="calendar-wrapper">
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
-        locale="pt-br"
+        locale={ptBrLocale}
         headerToolbar={{
           left: 'prev,next today',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          right: 'dayGridMonth,timeGridWeek'
         }}
         buttonText={{
           today: 'Hoje',
@@ -50,9 +59,14 @@ const CalendarView = ({ clients = [], onEventClick }) => {
         events={events}
         eventClick={handleEventClick}
         height="auto"
+        eventTimeFormat={{
+          hour: '2-digit',
+          minute: '2-digit',
+          meridiem: false
+        }}
       />
     </div>
-  )
-}
+  );
+};
 
-export default CalendarView
+export default CalendarView;

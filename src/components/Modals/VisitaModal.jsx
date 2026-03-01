@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { FaTimes, FaBuilding, FaCalendarDay, FaClock, FaTag, FaAlignLeft, FaBell } from 'react-icons/fa'
-import './Modal.css'
+import React, { useState, useEffect } from 'react';
+import { FaTimes, FaBuilding, FaCalendarDay, FaClock, FaTag, FaAlignLeft, FaBell } from 'react-icons/fa';
+import './Modal.css';
 
 const VisitaModal = ({ isOpen, onClose, onSave, clients = [], clientId = null }) => {
   const [formData, setFormData] = useState({
@@ -10,29 +10,29 @@ const VisitaModal = ({ isOpen, onClose, onSave, clients = [], clientId = null })
     tipo: 'Visita Comercial',
     obs: '',
     lembrete: '30'
-  })
+  });
 
   useEffect(() => {
     if (clientId) {
-      setFormData(prev => ({ ...prev, clienteId: clientId }))
+      setFormData(prev => ({ ...prev, clienteId: clientId }));
     }
-  }, [clientId])
+  }, [clientId]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    onSave(formData)
-  }
+    e.preventDefault();
+    onSave(formData);
+  };
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h2><FaCalendarDay /> Agendar Visita</h2>
           <button className="modal-close" onClick={onClose}>
@@ -40,7 +40,7 @@ const VisitaModal = ({ isOpen, onClose, onSave, clients = [], clientId = null })
           </button>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="modal-body">
           <div className="form-group">
             <label><FaBuilding /> Cliente*</label>
             <select
@@ -49,7 +49,7 @@ const VisitaModal = ({ isOpen, onClose, onSave, clients = [], clientId = null })
               onChange={handleChange}
               required
             >
-              <option value="">Selecione...</option>
+              <option value="">Selecione um cliente...</option>
               {clients.map(client => (
                 <option key={client.id} value={client.id}>
                   {client.name}
@@ -127,13 +127,13 @@ const VisitaModal = ({ isOpen, onClose, onSave, clients = [], clientId = null })
               Cancelar
             </button>
             <button type="submit" className="btn-primary">
-              Agendar
+              Agendar Visita
             </button>
           </div>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default VisitaModal
+export default VisitaModal;

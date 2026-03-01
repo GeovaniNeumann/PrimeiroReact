@@ -5,35 +5,47 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
+  background: white;
+  /* Bordas iguais aos containers */
+  border-bottom: 1px solid var(--light);
+  margin-bottom: 1.5rem; /* Espaçamento igual entre os containers */
 }
 
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 1.5rem;
 }
 
 .logo {
-  height: 50px;
+  height: 55px;
   width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
 }
 
 .gerente-info {
   display: flex;
   flex-direction: column;
+  border-left: 2px solid var(--light);
+  padding-left: 1.5rem;
 }
 
 .gerente-info h1 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #1e3c72;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary);
   margin: 0;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
 }
 
 .gerente-nome {
@@ -41,11 +53,17 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.9rem;
-  color: #95a5a6;
+  color: var(--gray);
+  margin-top: 4px;
 }
 
-.gerente-nome i {
-  color: #2ecc71;
+.gerente-nome svg {
+  color: var(--success);
+  font-size: 1rem;
+}
+
+.gerente-nome span {
+  font-weight: 500;
 }
 
 .header-actions {
@@ -57,40 +75,48 @@
 .notificacoes {
   position: relative;
   cursor: pointer;
-}
-
-.notificacoes i {
-  font-size: 1.5rem;
-  color: #95a5a6;
+  padding: 8px;
+  border-radius: 8px;
   transition: all 0.3s ease;
 }
 
-.notificacoes:hover i {
-  color: #1e3c72;
+.notificacoes:hover {
+  background: var(--light);
+}
+
+.notificacoes svg {
+  font-size: 1.4rem;
+  color: var(--gray);
+  transition: all 0.3s ease;
+}
+
+.notificacoes:hover svg {
+  color: var(--primary);
   transform: scale(1.1);
 }
 
 .badge {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #e74c3c;
+  top: 2px;
+  right: 2px;
+  background: var(--danger);
   color: white;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 600;
   padding: 2px 6px;
-  border-radius: 20px;
-  min-width: 20px;
+  border-radius: 12px;
+  min-width: 18px;
   text-align: center;
   box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
+  border: 2px solid white;
 }
 
 .btn-logout {
   background: none;
-  border: 2px solid #e74c3c;
-  color: #e74c3c;
+  border: 2px solid var(--danger);
+  color: var(--danger);
   padding: 0.5rem 1.5rem;
-  border-radius: 30px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -100,31 +126,54 @@
   font-size: 0.9rem;
   width: auto;
   margin: 0;
+  background: transparent;
 }
 
 .btn-logout:hover {
-  background: #e74c3c;
+  background: var(--danger);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+  box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
 }
 
+.btn-logout svg {
+  font-size: 1rem;
+}
+
+/* Ajuste para o container principal */
+.dashboard {
+  padding-top: 0; /* Remove padding extra */
+}
+
+.dashboard-container {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0 1.5rem 1.5rem 1.5rem; /* Padding apenas nas laterais e embaixo */
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
   .header {
     height: auto;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
   }
   
   .header-brand {
-    gap: 0.5rem;
+    gap: 0.75rem;
   }
   
   .logo {
-    height: 35px;
+    height: 45px;
+  }
+  
+  .gerente-info {
+    padding-left: 0.75rem;
   }
   
   .gerente-info h1 {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   
   .gerente-nome {
@@ -132,19 +181,51 @@
   }
   
   .header-actions {
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
   
-  .notificacoes i {
+  .notificacoes svg {
     font-size: 1.2rem;
   }
   
   .btn-logout {
-    padding: 0.3rem 1rem;
+    padding: 0.4rem 1rem;
     font-size: 0.8rem;
   }
   
   .btn-logout span {
     display: none;
+  }
+  
+  .dashboard-container {
+    padding: 0 1rem 1rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .header-brand {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .gerente-info {
+    border-left: none;
+    padding-left: 0;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 50px;
+  }
+  
+  .dashboard-container {
+    padding: 0 0.75rem 0.75rem 0.75rem;
   }
 }

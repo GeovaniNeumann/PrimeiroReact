@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import { FaTimes, FaUser, FaIdCard, FaBuilding, FaDollarSign, FaMapPin, FaEnvelope, FaPhone, FaCircle, FaCalendar } from 'react-icons/fa'
-import './Modal.css'
+import React, { useState, useEffect } from 'react';
+import { FaTimes, FaUser, FaIdCard, FaBuilding, FaDollarSign, FaMapPin, FaEnvelope, FaPhone, FaCircle, FaCalendar } from 'react-icons/fa';
+import './Modal.css';
 
 const ClientModal = ({ isOpen, onClose, onSave, client = null }) => {
   const [formData, setFormData] = useState({
     name: '',
     cnpj: '',
     porte: '',
+    regiao: 'Centro',
     revenue_ytd: '',
     address: '',
     email: '',
     phone: '',
     status: 'Ativo',
-    frequency_days: 30
-  })
+    frequency_days: 30,
+    contato: ''
+  });
 
   useEffect(() => {
     if (client) {
@@ -21,43 +23,47 @@ const ClientModal = ({ isOpen, onClose, onSave, client = null }) => {
         name: client.name || '',
         cnpj: client.cnpj || '',
         porte: client.porte || '',
+        regiao: client.regiao || 'Centro',
         revenue_ytd: client.revenue_ytd || '',
         address: client.address || '',
         email: client.email || '',
         phone: client.phone || '',
         status: client.status || 'Ativo',
-        frequency_days: client.frequency_days || 30
-      })
+        frequency_days: client.frequency_days || 30,
+        contato: client.contato || ''
+      });
     } else {
       setFormData({
         name: '',
         cnpj: '',
         porte: '',
+        regiao: 'Centro',
         revenue_ytd: '',
         address: '',
         email: '',
         phone: '',
         status: 'Ativo',
-        frequency_days: 30
-      })
+        frequency_days: 30,
+        contato: ''
+      });
     }
-  }, [client])
+  }, [client]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    onSave(formData)
-  }
+    e.preventDefault();
+    onSave(formData);
+  };
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h2>
             {client ? <><FaUser /> Editar Cliente</> : <><FaUser /> Novo Cliente</>}
@@ -67,7 +73,7 @@ const ClientModal = ({ isOpen, onClose, onSave, client = null }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="modal-body">
           <div className="form-row">
             <div className="form-group">
               <label><FaUser /> Nome*</label>
@@ -108,6 +114,24 @@ const ClientModal = ({ isOpen, onClose, onSave, client = null }) => {
               </select>
             </div>
             <div className="form-group">
+              <label><FaMapPin /> Região*</label>
+              <select
+                name="regiao"
+                value={formData.regiao}
+                onChange={handleChange}
+                required
+              >
+                <option value="Centro">Centro</option>
+                <option value="Sul">Sul</option>
+                <option value="Norte">Norte</option>
+                <option value="Leste">Leste</option>
+                <option value="Oeste">Oeste</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
               <label><FaDollarSign /> Faturamento YTD</label>
               <input
                 type="number"
@@ -116,6 +140,16 @@ const ClientModal = ({ isOpen, onClose, onSave, client = null }) => {
                 onChange={handleChange}
                 placeholder="0,00"
                 step="0.01"
+              />
+            </div>
+            <div className="form-group">
+              <label><FaCalendar /> Frequência (dias)</label>
+              <input
+                type="number"
+                name="frequency_days"
+                value={formData.frequency_days}
+                onChange={handleChange}
+                min="1"
               />
             </div>
           </div>
@@ -158,6 +192,16 @@ const ClientModal = ({ isOpen, onClose, onSave, client = null }) => {
 
           <div className="form-row">
             <div className="form-group">
+              <label><FaUser /> Contato Principal</label>
+              <input
+                type="text"
+                name="contato"
+                value={formData.contato}
+                onChange={handleChange}
+                placeholder="Nome do responsável"
+              />
+            </div>
+            <div className="form-group">
               <label><FaCircle /> Status</label>
               <select
                 name="status"
@@ -168,16 +212,6 @@ const ClientModal = ({ isOpen, onClose, onSave, client = null }) => {
                 <option value="Inativo">Inativo</option>
               </select>
             </div>
-            <div className="form-group">
-              <label><FaCalendar /> Frequência (dias)</label>
-              <input
-                type="number"
-                name="frequency_days"
-                value={formData.frequency_days}
-                onChange={handleChange}
-                min="1"
-              />
-            </div>
           </div>
 
           <div className="modal-footer">
@@ -185,13 +219,13 @@ const ClientModal = ({ isOpen, onClose, onSave, client = null }) => {
               Cancelar
             </button>
             <button type="submit" className="btn-primary">
-              {client ? 'Atualizar' : 'Salvar'}
+              {client ? 'Atualizar Cliente' : 'Salvar Cliente'}
             </button>
           </div>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ClientModal // <--- IMPORTANTE: esta linha precisa estar aqui!
+export default ClientModal;
