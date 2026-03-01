@@ -1,12 +1,22 @@
 import React from 'react'
 import { FaBell, FaSignOutAlt, FaUserCircle } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 import './Header.css'
 
-const Header = ({ user, onLogout }) => {
+const Header = ({ user }) => {
+  const navigate = useNavigate()
+  const { logout } = useAuth()
+
+  const handleLogout = async () => {
+    await logout()
+    navigate('/login') // <-- ISSO É CRÍTICO
+  }
+
   return (
     <header className="header">
       <div className="header-brand">
-        <img src="https://i.ibb.co/MdtYrsZ/Captura-de-tela-2025-10-14-173640-removebg-preview.png" alt="Logo" className="logo" />
+        <img src="/logo.png" alt="Logo" className="logo" />
         <div className="gerente-info">
           <h1>Minha Carteira de Clientes</h1>
           <span className="gerente-nome">
@@ -20,7 +30,7 @@ const Header = ({ user, onLogout }) => {
           <FaBell />
           <span className="badge">0</span>
         </div>
-        <button className="btn-logout" onClick={onLogout}>
+        <button className="btn-logout" onClick={handleLogout}>
           <FaSignOutAlt />
           <span>Sair</span>
         </button>

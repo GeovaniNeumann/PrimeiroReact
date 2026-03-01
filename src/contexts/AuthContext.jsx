@@ -14,14 +14,9 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   const loadUser = async () => {
-    try {
-      const currentUser = await auth.getCurrentUser()
-      setUser(currentUser)
-    } catch (error) {
-      console.error('Erro ao carregar usuário:', error)
-    } finally {
-      setLoading(false)
-    }
+    const currentUser = await auth.getCurrentUser()
+    setUser(currentUser)
+    setLoading(false)
   }
 
   const login = async (email, password) => {
@@ -35,20 +30,19 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     await auth.logout()
     setUser(null)
-  }
-
-  const value = {
-    user,
-    login,
-    logout,
-    isAuthenticated: !!user,
-    isAdmin: user?.role === 'admin',
-    loading
+    // NÃO REDIRECIONE AQUI - deixe o componente fazer isso
   }
 
   return (
-    <AuthContext.Provider value={value}>
-      {children}
+    <AuthContext.Provider value={{
+      user,
+      login,
+      logout,
+      isAuthenticated: !!user,
+      isAdmin: user?.role === 'admin',
+      loading
+    }}>
+      {!loading && children}
     </AuthContext.Provider>
   )
 }

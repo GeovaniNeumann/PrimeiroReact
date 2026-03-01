@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
@@ -9,13 +8,13 @@ import CalendarView from '../components/CalendarView'
 import MapView from '../components/MapView'
 import Charts from '../components/Charts'
 import ClientTable from '../components/ClientTable'
-import ClientModal from '../components/Modals/ClientModal'  // <-- APENAS UMA VEZ
-import VisitaModal from '../components/Modals/VisitaModal'  // <-- APENAS UMA VEZ
+import ClientModal from '../components/Modals/ClientModal'
+import VisitaModal from '../components/Modals/VisitaModal'
 import api from '../services/api'
 import './Dashboard.css'
 
 const Dashboard = () => {
-  const { user, logout } = useAuth()
+  const { user, isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
   const [clients, setClients] = useState([])
   const [filteredClients, setFilteredClients] = useState([])
@@ -29,8 +28,12 @@ const Dashboard = () => {
   const [selectedClientId, setSelectedClientId] = useState(null)
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login')
+      return
+    }
     loadClients()
-  }, [])
+  }, [isAuthenticated, navigate])
 
   const loadClients = async () => {
     setLoading(true)
@@ -116,8 +119,8 @@ const Dashboard = () => {
     setSelectedClientId(null)
   }
 
-  const handleLogout = () => {
-    logout()
+  const handleLogout = async () => {
+    await logout()
     navigate('/login')
   }
 
@@ -193,7 +196,6 @@ const Dashboard = () => {
         </main>
       </div>
 
-      {/* Modais */}
       <ClientModal
         isOpen={clientModalOpen}
         onClose={() => {
